@@ -50,7 +50,7 @@ namespace gr {
                   gr::io_signature::make(1, 1, sizeof(gr_complex)))
     {
       set_code(code);
-
+      d_samples_per_symbol = samples_per_symbol;
       int bits_per_symbol = 1;
       int arity = pow(2, bits_per_symbol);
 
@@ -58,16 +58,22 @@ namespace gr {
 
       int rrc_ntaps = samples * 11;
 
+
       int code_symbols_size = d_code.size() * samples;
-      gr_complex* code_symbols = new gr_complex[code_symbols_size + 2 * rrc_ntaps];
+      int extra_symbols = rrc_ntaps;
+      gr_complex* code_symbols = new gr_complex[code_symbols_size + extra_symbols];
+
+      for (int i = 0; i < extra_symbols; i++) {
+           code_symbols[i] = 0;
+      }
 
       for (int i = 0; i < d_code.size(); i++) {
         gr_complex c = d_code[d_code.size() - (i + 1)] == 0 ? -1.0 : 1.0;
 
-        code_symbols[rrc_ntaps + i * samples] = c;
+        code_symbols[extra_symbols + i * samples] = c;
 
         for (int k = 1; k < samples; k++) {
-          code_symbols[rrc_ntaps + i * samples + k] = 0;
+          code_symbols[extra_symbols + i * samples + k] = c;
         }
       }
 
@@ -82,7 +88,7 @@ namespace gr {
       filter::kernel::fir_filter_ccf *fir_filter = new filter::kernel::fir_filter_ccf(1, rrc_taps);
 
       // FIXME: Will only work for real constellations.
-      for (int i = 0; i < code_symbols_size + rrc_ntaps; i++) {
+      for (int i = 0; i < code_symbols_size + extra_symbols; i++) {
         d_taps.push_back(fir_filter->filter(&code_symbols[i]).real());
       }
 

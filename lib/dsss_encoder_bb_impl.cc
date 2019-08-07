@@ -74,6 +74,8 @@ namespace gr {
       const unsigned char *in = (const unsigned char *) input_items[0];
       unsigned char *out = (unsigned char *) output_items[0];
 
+      if(ninput_items[0] < 1)
+          return 0;
       int input_required = noutput_items / (8 * d_code.size());
 
       for (int i = 0; i < input_required; i++) {
