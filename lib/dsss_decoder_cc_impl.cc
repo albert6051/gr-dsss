@@ -132,7 +132,14 @@ namespace gr {
       int code_sample_size = d_samples_per_symbol * d_code.size();
       float max_abs_val, cur_abs_val;
       gr_complex max_val, cur_val;
-      int consumed = 0, produced = 0;
+      int consumed = 0;
+      if(noutput_items < 1)
+      {
+          struct timespec time_to_sleep = {0, 100000L };
+          nanosleep(&time_to_sleep, NULL);
+          consume_each(0);
+          return 0;
+      }
 
       for (int i = 0; i < noutput_items; i++) {
         max_abs_val = 0;
@@ -150,8 +157,6 @@ namespace gr {
           consumed++;
         }
         out[i] = max_val;
-
-        produced++;
       }
 
       // Tell runtime system how many input items we consumed on
@@ -159,7 +164,7 @@ namespace gr {
       consume_each(consumed);
 
       // Tell runtime system how many output items we produced.
-      return produced;
+      return noutput_items;
     }
 
   } /* namespace dsss */
