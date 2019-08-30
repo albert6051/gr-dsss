@@ -96,8 +96,8 @@ namespace gr {
       }
 
       d_match_filter = new filter::kernel::fir_filter_ccf(1, d_taps);
-      set_history(d_match_filter->ntaps()+1);
-      set_relative_rate(1/d_code.size());
+      set_history(d_samples_per_symbol * d_code.size()+1);
+      set_relative_rate(1/(d_code.size()*d_samples_per_symbol));
 
       // clean-up
       delete fir_filter;
