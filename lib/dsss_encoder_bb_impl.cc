@@ -44,6 +44,7 @@ namespace gr {
                   gr::io_signature::make(1, 1, sizeof(unsigned char)))
     {
       set_code(code);
+      set_relative_rate((code.size()*8));
     }
 
     /*
