@@ -44,7 +44,8 @@ namespace gr {
                   gr::io_signature::make(1, 1, sizeof(unsigned char)))
     {
       set_code(code);
-      set_relative_rate((code.size()*8));
+      set_relative_rate(code.size()*8);
+      set_output_multiple(code.size()*8);
     }
 
     /*
@@ -63,7 +64,7 @@ namespace gr {
     void
     dsss_encoder_bb_impl::forecast (int noutput_items, gr_vector_int &ninput_items_required)
     {
-      ninput_items_required[0] = (int) ceil(noutput_items / (8.0 * d_code.size()));
+      ninput_items_required[0] = noutput_items / (8.0 * d_code.size());
     }
 
     int
@@ -75,15 +76,8 @@ namespace gr {
       const unsigned char *in = (const unsigned char *) input_items[0];
       unsigned char *out = (unsigned char *) output_items[0];
 
-
       int input_required = noutput_items / (8 * d_code.size());
-      if(input_required < 1)
-      {
-          struct timespec time_to_sleep = {0, 1000000L };
-          nanosleep(&time_to_sleep, NULL);
-          consume_each(0);
-          return 0;
-      }
+
 
       for (int i = 0; i < input_required; i++) {
         for (int j = 0; j < 8; j++) {

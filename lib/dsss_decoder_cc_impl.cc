@@ -137,13 +137,6 @@ namespace gr {
       float max_abs_val, cur_abs_val;
       gr_complex max_val, cur_val;
       int consumed = 0;
-      if(noutput_items < 1)
-      {
-          struct timespec time_to_sleep = {0, 100000L };
-          nanosleep(&time_to_sleep, NULL);
-          consume_each(0);
-          return 0;
-      }
 
       for (int i = 0; i < noutput_items; i++) {
         max_abs_val = 0;
