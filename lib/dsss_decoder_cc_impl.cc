@@ -61,7 +61,7 @@ namespace gr {
 
       int code_symbols_size = d_code.size() * samples;
       int extra_symbols = rrc_ntaps;
-      gr_complex* code_symbols = new gr_complex[code_symbols_size + extra_symbols];
+      gr_complex* code_symbols = new gr_complex[code_symbols_size + 2*extra_symbols];
 
       for (int i = 0; i < extra_symbols; i++) {
            code_symbols[i] = 0;
@@ -75,6 +75,9 @@ namespace gr {
         for (int k = 1; k < samples; k++) {
           code_symbols[extra_symbols + i * samples + k] = c;
         }
+      }
+      for (int i = extra_symbols + d_code.size() * samples; i < code_symbols_size + 2*extra_symbols; i++) {
+           code_symbols[i] = 0;
       }
 
       float excess_bw = 0.350f;
@@ -94,6 +97,7 @@ namespace gr {
 
       d_match_filter = new filter::kernel::fir_filter_ccf(1, d_taps);
       set_history(d_match_filter->ntaps()+1);
+      set_relative_rate(1/d_code.size());
 
       // clean-up
       delete fir_filter;
@@ -146,6 +150,7 @@ namespace gr {
         max_val = 0;
 
         // FIXME: Will not work for non-integer samples_per_symbols
+        // FIXME: Will not work for large code sizes
         for (int j = 0; j < code_sample_size; j++) {
           cur_val = d_match_filter->filter(in + (i-1) * code_sample_size + j);
           cur_abs_val = abs(cur_val);
