@@ -51,7 +51,7 @@ namespace gr {
       virtual std::vector<int> code() const = 0;
       virtual void set_code(const std::vector<int> &code) = 0;
 
-      virtual std::vector<float> taps() const = 0;
+      virtual std::vector<gr_complex> taps() const = 0;
     };
 
   } // namespace dsss

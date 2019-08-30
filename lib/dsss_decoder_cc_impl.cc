@@ -90,12 +90,11 @@ namespace gr {
 
       filter::kernel::fir_filter_ccf *fir_filter = new filter::kernel::fir_filter_ccf(1, rrc_taps);
 
-      // FIXME: Will only work for real constellations.
       for (int i = 0; i < code_symbols_size + extra_symbols; i++) {
-        d_taps.push_back(fir_filter->filter(&code_symbols[i]).real());
+        d_taps.push_back(fir_filter->filter(&code_symbols[i]));
       }
 
-      d_match_filter = new filter::kernel::fir_filter_ccf(1, d_taps);
+      d_match_filter = new filter::kernel::fir_filter_ccc(1, d_taps);
       set_history(d_samples_per_symbol * d_code.size()+1);
       set_relative_rate(1/(d_code.size()*d_samples_per_symbol));
 

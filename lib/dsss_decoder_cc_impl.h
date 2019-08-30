@@ -33,9 +33,9 @@ namespace gr {
     {
      private:
       std::vector<int> d_code;
-      std::vector<float> d_taps;
+      std::vector<gr_complex> d_taps;
       float d_samples_per_symbol;
-      filter::kernel::fir_filter_ccf* d_match_filter;
+      filter::kernel::fir_filter_ccc* d_match_filter;
 
      public:
       dsss_decoder_cc_impl(const std::vector<int> &code, float samples_per_symbol);
@@ -44,7 +44,7 @@ namespace gr {
       std::vector<int> code() const { return d_code; }
       void set_code(const std::vector<int> &code);
 
-      std::vector<float> taps() const {return d_taps;}
+      std::vector<gr_complex> taps() const {return d_taps;}
 
       // Where all the action really happens
       void forecast (int noutput_items, gr_vector_int &ninput_items_required);
