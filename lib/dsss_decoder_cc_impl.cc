@@ -66,6 +66,9 @@ namespace gr {
       for (int i = 0; i < extra_symbols; i++) {
            code_symbols[i] = 0;
       }
+      for (int i = extra_symbols + d_code.size() * samples; i < code_symbols_size + 2*extra_symbols; i++) {
+           code_symbols[i] = 0;
+      }
 
       for (int i = 0; i < d_code.size(); i++) {
         gr_complex c = d_code[d_code.size() - (i + 1)] == 0 ? -1.0 : 1.0;
@@ -76,9 +79,8 @@ namespace gr {
           code_symbols[extra_symbols + i * samples + k] = c;
         }
       }
-      for (int i = extra_symbols + d_code.size() * samples; i < code_symbols_size + 2*extra_symbols; i++) {
-           code_symbols[i] = 0;
-      }
+
+
 
       float excess_bw = 0.350f;
       static std::vector<float> rrc_taps =
@@ -99,7 +101,6 @@ namespace gr {
       set_history(d_samples_per_symbol * d_code.size());
 
       set_relative_rate(1/(d_code.size()*d_samples_per_symbol));
-      set_output_multiple(2);
 
       // clean-up
       delete fir_filter;
@@ -156,7 +157,7 @@ namespace gr {
 
           consumed++;
         }
-        out[i] = max_val * (gr_complex)(2.0 / code_sample_size);
+        out[i] = max_val * (2.0f / code_sample_size );
       }
 
       // Tell runtime system how many input items we consumed on
