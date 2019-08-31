@@ -95,8 +95,11 @@ namespace gr {
       }
 
       d_match_filter = new filter::kernel::fir_filter_ccc(1, d_taps);
-      set_history(d_samples_per_symbol * d_code.size()+1);
+      // we can use this to tag back in time
+      set_history(d_samples_per_symbol * d_code.size());
+
       set_relative_rate(1/(d_code.size()*d_samples_per_symbol));
+      set_output_multiple(2);
 
       // clean-up
       delete fir_filter;
