@@ -23,7 +23,7 @@ The DSSS decoder block uses a FIR filter whose length (based on spreading sequen
 the samples per symbol value) will determine what is the maximum sample rate which can be
 supported.
 
-[![Screenshot](http://github.com/kantooon/gr-dsss/master/examples/DSSS_encode_decode.grc.png)]
+[![Screenshot](https://github.com/kantooon/gr-dsss/raw/master/examples/DSSS_encode_decode.grc.png)]
 
 Credits
 -------
