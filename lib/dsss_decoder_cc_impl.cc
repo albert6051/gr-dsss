@@ -156,7 +156,7 @@ namespace gr {
 
           consumed++;
         }
-        out[i] = max_val;
+        out[i] = max_val * (gr_complex)(2.0 / code_sample_size);
       }
 
       // Tell runtime system how many input items we consumed on
