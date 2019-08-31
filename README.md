@@ -23,15 +23,36 @@ The DSSS decoder block uses a FIR filter whose length (based on spreading sequen
 the samples per symbol value) will determine what is the maximum sample rate which can be
 supported.
 
-[![Screenshot](https://github.com/kantooon/gr-dsss/raw/master/examples/DSSS_encode_decode.grc.png)]
+![Screenshot](https://github.com/kantooon/gr-dsss/raw/master/examples/DSSS_encode_decode.grc.png)
+
+
+Installation instructions
+------
+
+
+Clone this repository then:
+<pre>
+cd gr-dsss/
+mkdir build/
+cd build/
+cmake -DCMAKE_INSTALL_PREFIX:PATH=/usr/local ..
+make
+sudo make install
+</pre>
+
+The blocks will become available in GNU radio companion in (no module specified) / dsss.
+
+
 
 Credits
 -------
 
 The original author of this GNU radio module is:
+
 Copyright 2014 Eric de Groot
 
 With bug fixes, additions and GRC examples by:
+
 Copyright 2019 Adrian Musceac YO8RZZ
 
 The code is available under the GNU GPLv3 license.
